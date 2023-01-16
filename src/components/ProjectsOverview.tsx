@@ -3,34 +3,15 @@ import { BASE_API_URL } from "../../settings";
 import facade, { handleHttpErrors } from "../api/apiFacade";
 import { useAuth } from "../hooks/AuthContext";
 import useModal from "../hooks/useModal";
+import useProjects from "../hooks/useProjects";
 import Project from "../types/entities/project";
 import { Button, Modal } from "./basic";
 import ProjectsOverviewAdd from "./ProjectsOverviewAdd";
 import ProjectsOverviewItem from "./ProjectsOverviewItem";
 
 function ProjectsOverview() {
-	const [projects, setProjects] = useState<Project[]>([]);
-
-	const { show, toggle } = useModal();
-	const [refresh, setRefresh] = useState(false);
-
-	const toggleRefresh = useCallback(() => setRefresh((curr) => !curr), []);
-
-	useEffect(() => {
-		const controller = new AbortController();
-		const getData = async () => {
-			const options = facade.makeOptions("GET", true);
-			const res = await fetch(BASE_API_URL + "/projects", {
-				...options,
-				signal: controller.signal,
-			});
-			const data = await handleHttpErrors(res);
-
-			setProjects(data as Project[]);
-		};
-		getData();
-		return () => controller.abort();
-	}, [refresh]);
+	const [show, toggle] = useModal();
+	const { projects, toggleRefresh } = useProjects();
 
 	return (
 		<div className=" min-h-max min-w-[50%] m-10 p-6 bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg">

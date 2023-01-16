@@ -5,10 +5,7 @@ function useModal(defaultValue = false) {
 
 	const toggle = useCallback(() => setShow((curr) => !curr), []);
 
-	return {
-		show,
-		toggle,
-	};
+	return [show, toggle] as const;
 }
 
 export default useModal;

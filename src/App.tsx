@@ -8,6 +8,7 @@ import { useAuth } from "./hooks/AuthContext";
 import BaseLayout from "./layout/BaseLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
+import ProjectPage from "./pages/ProjectPage";
 
 function App() {
 	const { autoLogin, state } = useAuth();
@@ -24,12 +25,12 @@ function App() {
 						index
 						element={!state.loggedIn ? <LoginPage /> : <HomePage />}
 					/>
-					{/* <Route
-						path="/persons"
-						element={<GuardedRoute allowedRoles={["admin"]} />}
+					<Route
+						path="/project/:id"
+						element={<GuardedRoute allowedRoles={["admin", "developer"]} />}
 					>
-						<Route index element={<User />} />
-					</Route> */}
+						<Route index element={<ProjectPage />} />
+					</Route>
 					<Route path="/example-page" element={<ExamplePage />} />
 					<Route path="sign-in" element={<LoginPage />} />
 					<Route path="*" element={<NotFoundPage />} />

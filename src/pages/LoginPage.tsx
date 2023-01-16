@@ -7,7 +7,7 @@ function LoginPage() {
 	const { login } = useAuth();
 
 	const { register, handleSubmit, isSubmitting } = useForm({
-		username: "",
+		email: "",
 		password: "",
 	});
 
@@ -20,16 +20,16 @@ function LoginPage() {
 				<div>{}</div>
 				<form
 					onSubmit={handleSubmit((event, values) =>
-						login(values.username, values.password)
+						login(values.email, values.password)
 					)}
 					noValidate
 					className="flex flex-col gap-4 justify-center p-2 items-center"
 				>
 					<InputField
 						type="text"
-						label="Username"
+						label="Email"
 						required
-						{...register("username", [], true)}
+						{...register("email", [], true)}
 					/>{" "}
 					<InputField
 						type="password"

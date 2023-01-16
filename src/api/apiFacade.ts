@@ -1,9 +1,13 @@
 import { BASE_API_URL } from "../../settings";
 import WeatherNCat from "../types/entities/weatherNCat";
 
-function handleHttpErrors(res: Response) {
+type APIError = { status: string; fullError: object };
+
+export type { APIError };
+
+export function handleHttpErrors(res: Response) {
 	if (!res.ok) {
-		return Promise.reject<{ status: string; fullError: object }>({
+		return Promise.reject<APIError>({
 			status: res.status,
 			fullError: res.json(),
 		});
@@ -39,9 +43,9 @@ function apiFacade() {
 		sessionStorage.removeItem("jwtToken");
 	};
 
-	const login = (user: string, password: string) => {
+	const login = (email: string, password: string) => {
 		const options = makeOptions("POST", true, {
-			username: user,
+			email: email,
 			password: password,
 		});
 		return fetch(BASE_API_URL + "/login", options)

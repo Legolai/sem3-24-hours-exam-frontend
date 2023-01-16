@@ -1,3 +1,3 @@
-type Role = "user" | "admin";
+type Role = "developer" | "admin";
 
 export default Role;

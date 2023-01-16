@@ -9,7 +9,8 @@ type Action = {
 };
 
 type State = {
-	username: string;
+	id: number;
+	email: string;
 	roles: Role[];
 	loggedIn: boolean;
 };
@@ -33,7 +34,7 @@ function authReducer(state: State, action: Action): State {
 		}
 		case "logout": {
 			facade.logout();
-			return { ...state, username: "", roles: [], loggedIn: false };
+			return { ...state, email: "", roles: [], loggedIn: false, id: 0 };
 		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
@@ -43,9 +44,10 @@ function authReducer(state: State, action: Action): State {
 
 function AuthProvider({ children }: AuthProviderProps) {
 	const [state, dispatch] = useReducer(authReducer, {
-		username: "",
+		email: "",
 		roles: [],
 		loggedIn: false,
+		id: 0,
 	});
 
 	const value = useMemo(() => ({ state, dispatch }), [state]);
@@ -95,7 +97,7 @@ function useAuth() {
 	};
 
 	const hasAccessRights = (allowedRoles: Role[]) => {
-		return state.roles.some(allowedRoles.includes);
+		return state.roles.some((role) => allowedRoles.includes(role));
 	};
 
 	const hasAccessRightsWithRevalidate = async (allowedRoles: Role[]) => {

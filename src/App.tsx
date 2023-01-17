@@ -4,15 +4,14 @@ import GuardedRoute from "./components/GuardedRoute";
 import Header from "./components/Header";
 import ExamplePage from "./pages/ExamplePage";
 import HomePage from "./pages/HomePage";
-import User from "./pages/User";
 import { useAuth } from "./hooks/AuthContext";
 import BaseLayout from "./layout/BaseLayout";
 import NotFoundPage from "./pages/NotFoundPage";
 import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SignUpPage";
+import ProjectPage from "./pages/ProjectPage";
 
 function App() {
-	const { autoLogin } = useAuth();
+	const { autoLogin, state } = useAuth();
 
 	useEffect(() => {
 		autoLogin();
@@ -22,15 +21,17 @@ function App() {
 		<BaseLayout>
 			<Routes>
 				<Route path="/" element={<Header />}>
-					<Route index element={<HomePage />} />
 					<Route
-						path="/persons"
-						element={<GuardedRoute allowedRoles={["admin"]} />}
+						index
+						element={!state.loggedIn ? <LoginPage /> : <HomePage />}
+					/>
+					<Route
+						path="/project/:id"
+						element={<GuardedRoute allowedRoles={["admin", "developer"]} />}
 					>
-						<Route index element={<User />} />
+						<Route index element={<ProjectPage />} />
 					</Route>
 					<Route path="/example-page" element={<ExamplePage />} />
-					<Route path="sign-up" element={<SignUpPage />} />
 					<Route path="sign-in" element={<LoginPage />} />
 					<Route path="*" element={<NotFoundPage />} />
 				</Route>

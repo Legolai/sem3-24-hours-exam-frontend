@@ -77,8 +77,8 @@ function useAuth() {
 		try {
 			await facade.login(username, password);
 			context.dispatch({ type: "login" });
-		} catch {
-			/* empty */
+		} catch (err: any) {
+			return Promise.reject(err);
 		}
 	};
 

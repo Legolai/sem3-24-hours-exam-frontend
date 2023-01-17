@@ -43,16 +43,16 @@ function apiFacade() {
 		sessionStorage.removeItem("jwtToken");
 	};
 
-	const login = (email: string, password: string) => {
-		const options = makeOptions("POST", true, {
-			email: email,
-			password: password,
-		});
-		return fetch(BASE_API_URL + "/login", options)
-			.then(handleHttpErrors)
-			.then((res) => {
-				setToken(res.token);
-			});
+	const login = async (email: string, password: string) => {
+		try {
+			const options = makeOptions("POST", true, { email, password });
+			const res = await fetch(BASE_API_URL + "/login", options);
+			const data = await handleHttpErrors(res);
+			setToken(data.token);
+			return data;
+		} catch (error: any) {
+			return Promise.reject({ ...error });
+		}
 	};
 
 	function makeOptions<T>(method: string, addToken: boolean, body?: T) {

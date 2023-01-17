@@ -31,14 +31,20 @@ function TaskModal({ task, toggleRefresh }: TaskModalProps) {
 					Time Tracker
 				</h1>
 				<div className="flex flex-col overflow-y-auto max-h-40 gap-4">
-					{task.projectHours.map((ph) => (
-						<ProjectHourItem
-							key={ph.projecthourId}
-							taskId={task.taskId}
-							removePH={() => toggleRefresh()}
-							projectHour={ph}
-						/>
-					))}
+					{task.projectHours.length != 0 ? (
+						task.projectHours.map((ph) => (
+							<ProjectHourItem
+								key={ph.projecthourId}
+								taskId={task.taskId}
+								removePH={() => toggleRefresh()}
+								projectHour={ph}
+							/>
+						))
+					) : (
+						<div className="bg-white backdrop-filter px-4 py-2 backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg">
+							There are currently not registered any time trackers for the task.
+						</div>
+					)}
 				</div>
 				{hasAccessRights(["developer"]) && (
 					<>
@@ -90,7 +96,7 @@ function TaskModal({ task, toggleRefresh }: TaskModalProps) {
 					))
 				) : (
 					<div className="bg-white backdrop-filter px-4 py-2 backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg">
-						There now subtasks
+						There are no subtasks.
 					</div>
 				)}
 			</div>

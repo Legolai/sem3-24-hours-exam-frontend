@@ -16,8 +16,20 @@ function HomePage() {
 	);
 
 	return (
-		<div className="flex justify-center">
-			<div className=" min-h-max min-w-[50%] m-10 p-6 bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg">
+		<div className="flex gap-10 justify-center">
+			<div className="text-white min-h-max max-w-[50%] my-10 p-6 bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg">
+				<div className="flex flex-col gap-4 justify-start">
+					<div>
+						<h1 className="text-4xl">Welcome back {state.name}</h1>
+						<h2 className="text-2xl font-thin">{state.email}</h2>
+					</div>
+					<div>
+						<h2 className="text-2xl">Permissions:</h2>
+						<h3 className="text-xl font-thin ml-4">{state.roles}</h3>
+					</div>
+				</div>
+			</div>
+			<div className=" min-h-max min-w-[50%] my-10 p-6 bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg">
 				<div className="mb-6 flex justify-between">
 					<h2 className="text-white text-xl flex-grow font-bold ">Projects</h2>
 					{state.roles.includes("admin") && (

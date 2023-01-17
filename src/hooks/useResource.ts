@@ -6,7 +6,10 @@ function useResource<T>(path: string) {
 	const [resource, setResource] = useState<T>();
 	const [refresh, setRefresh] = useState(false);
 
-	const toggleRefresh = useCallback(() => setRefresh((curr) => !curr), []);
+	const toggleRefresh = useCallback(
+		() => setRefresh((curr) => !curr),
+		[resource]
+	);
 
 	useEffect(() => {
 		const controller = new AbortController();
@@ -17,6 +20,7 @@ function useResource<T>(path: string) {
 				signal: controller.signal,
 			});
 			const data = await handleHttpErrors(res);
+			console.log(data);
 			setResource(data as T);
 		};
 		getData();

@@ -8,15 +8,18 @@ interface TaskItemProps {
 
 function TaskItem({ task, select }: TaskItemProps) {
 	return (
-		<details className="w-max list-none">
-			<summary className="text-white flex w-max p-2 justify-between items-center bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg ">
+		<details className="max-w-full list-none">
+			<summary className="text-white flex max-w-full p-2  items-center bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg ">
 				<p className="mr-6">{task.taskTitle}</p>
-				<Button className="h-min w-fit" onClick={() => select(task.taskId)}>
+				<Button
+					className="h-min max-w-fit ml-auto"
+					onClick={() => select(task.taskId)}
+				>
 					{" "}
-					Add hours{" "}
+					See Task{" "}
 				</Button>
 			</summary>
-			<div className="text-white w-max p-2  bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg ">
+			<div className="text-white w-max p-2 mt-2 ml-4 bg-white backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg ">
 				<p>{task.taskDescription}</p>
 				{task.subtasks.map((t) => (
 					<TaskItem key={t.taskId} select={select} task={t} />

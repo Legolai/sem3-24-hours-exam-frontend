@@ -1,10 +1,5 @@
-import { useCallback, useEffect, useState } from "react";
-import { BASE_API_URL } from "../../settings";
-import facade, { handleHttpErrors } from "../api/apiFacade";
-import { useAuth } from "../hooks/AuthContext";
 import useModal from "../hooks/useModal";
 import useProjects from "../hooks/useProjects";
-import Project from "../types/entities/project";
 import { Button, Modal } from "./basic";
 import ProjectsOverviewAdd from "./ProjectsOverviewAdd";
 import ProjectsOverviewItem from "./ProjectsOverviewItem";

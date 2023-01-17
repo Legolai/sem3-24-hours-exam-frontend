@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useAuth } from "../hooks/AuthContext";
+import { useState } from "react";
 import useModal from "../hooks/useModal";
+import useResource from "../hooks/useResource";
+import TaskFullDetailed from "../types/entities/taskFullDetailed";
 import TaskMini from "../types/entities/taskMini";
 import { Modal } from "./basic";
 import TaskItem from "./TaskItem";
@@ -11,28 +12,33 @@ interface TaskOverviewProps {
 }
 
 function TasksOverview({ tasks }: TaskOverviewProps) {
-	const { hasAccessRights } = useAuth();
 	const [showAddHours, toggleAddHours] = useModal();
 	const [selectedTask, setSelectedTask] = useState(0);
+	const { resource: task, toggleRefresh } = useResource<TaskFullDetailed>(
+		"/tasks/" + selectedTask
+	);
 
 	return (
-		<div>
-			<h2>Tasks</h2>
-			<div className="flex flex-col gap-6">
+		<div className="text-white flex flex-col gap-4 flex-[0.75]">
+			<h2 className="text-2xl font-semibold tracking-wider">Tasks</h2>
+			<div className="flex flex-col gap-6 ">
 				{tasks?.map((t) => (
 					<TaskItem
 						key={t.taskId}
 						select={(id) => {
 							setSelectedTask(id);
+							toggleRefresh();
 							toggleAddHours();
 						}}
 						task={t}
 					/>
 				))}
 			</div>
-			<Modal show={showAddHours} toggle={toggleAddHours}>
-				<TaskModal taskId={selectedTask} />
-			</Modal>
+			{task && (
+				<Modal show={showAddHours} toggle={toggleAddHours}>
+					<TaskModal task={task} toggleRefresh={toggleRefresh} />
+				</Modal>
+			)}
 		</div>
 	);
 }

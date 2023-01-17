@@ -7,12 +7,15 @@ function decodeJwt() {
 	const jwtData = token.split(".")[1];
 	const decodedJwtJsonData = window.atob(jwtData);
 	const decodedJwtData = JSON.parse(decodedJwtJsonData);
-	console.log(decodedJwtData);
 	return decodedJwtData;
 }
 
 function getEmail(jwt: { email: string }) {
 	return jwt && jwt.email;
+}
+
+function getName(jwt: { name: string }) {
+	return jwt && jwt.name;
 }
 
 function getUserRoles(jwt: { roles: string }) {
@@ -29,6 +32,7 @@ function getUserInfo() {
 	return {
 		id: getUserId(jwtData),
 		email: getEmail(jwtData),
+		name: getName(jwtData),
 		roles: getUserRoles(jwtData) || [],
 	};
 }

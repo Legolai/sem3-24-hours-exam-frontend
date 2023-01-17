@@ -10,6 +10,7 @@ type Action = {
 
 type State = {
 	id: number;
+	name: string;
 	email: string;
 	roles: Role[];
 	loggedIn: boolean;
@@ -34,7 +35,14 @@ function authReducer(state: State, action: Action): State {
 		}
 		case "logout": {
 			facade.logout();
-			return { ...state, email: "", roles: [], loggedIn: false, id: 0 };
+			return {
+				...state,
+				email: "",
+				name: "",
+				roles: [],
+				loggedIn: false,
+				id: 0,
+			};
 		}
 		default: {
 			throw new Error(`Unhandled action type: ${action.type}`);
@@ -48,6 +56,7 @@ function AuthProvider({ children }: AuthProviderProps) {
 		roles: [],
 		loggedIn: false,
 		id: 0,
+		name: "",
 	});
 
 	const value = useMemo(() => ({ state, dispatch }), [state]);
